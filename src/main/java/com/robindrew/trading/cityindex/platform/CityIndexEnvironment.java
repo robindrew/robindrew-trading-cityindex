@@ -3,7 +3,7 @@ package com.robindrew.trading.cityindex.platform;
 public enum CityIndexEnvironment {
 
 	/** Production Environment. */
-	PROD("https://ciapi.cityindex.com/tradingapi/", "https://push.cityindex.com/"),
+	PROD("https://ciapi.cityindex.com/tradingapi", "https://push.cityindex.com"),
 	/** Demo Environment. */
 	DEMO("https://ciapipreprod.cityindextest9.co.uk/TradingApi", "https://pushpreprod.cityindextest9.co.uk");
 

@@ -1,23 +1,47 @@
 package com.robindrew.trading.cityindex.platform.rest.executor.login;
 
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
+import com.google.gson.annotations.SerializedName;
+import com.robindrew.trading.cityindex.platform.CityIndexCredentials;
+import com.robindrew.trading.cityindex.platform.rest.executor.IJsonObject;
 
-import com.robindrew.trading.cityindex.platform.CityIndexSession;
-import com.robindrew.trading.cityindex.platform.rest.executor.CityIndexRequest;
+public final class LoginRequest implements IJsonObject {
 
-public class LoginRequest extends CityIndexRequest {
+	@SerializedName("Password")
+	private final String password;
+	@SerializedName("AppVersion")
+	private final String version;
+	@SerializedName("AppComments")
+	private final String comments;
+	@SerializedName("UserName")
+	private final String username;
+	@SerializedName("AppKey")
+	private final String appKey;
 
-	public LoginRequest(CityIndexSession session) {
-		super(session);
+	public LoginRequest(CityIndexCredentials credentials) {
+		this.appKey = credentials.getAppKey();
+		this.username = credentials.getUsername();
+		this.password = credentials.getPassword();
+		this.comments = "";
+		this.version = "1";
 	}
 
-	@Override
-	public HttpUriRequest toRequest() {
-		HttpPost post = new HttpPost(getUrl("/session"));
-		addStandardHeaders(post);
-		setJsonContent(post, new LoginRequestJson(getSession().getCredentials()));
-		return post;
+	public String getPassword() {
+		return password;
 	}
 
+	public String getVersion() {
+		return version;
+	}
+
+	public String getComments() {
+		return comments;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public String getAppKey() {
+		return appKey;
+	}
 }

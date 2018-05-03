@@ -6,25 +6,26 @@ import com.robindrew.trading.cityindex.platform.CityIndexCredentials;
 import com.robindrew.trading.cityindex.platform.CityIndexEnvironment;
 import com.robindrew.trading.cityindex.platform.CityIndexSession;
 import com.robindrew.trading.cityindex.platform.rest.executor.login.LoginExecutor;
-import com.robindrew.trading.cityindex.platform.rest.executor.login.LoginRequest;
+import com.robindrew.trading.log.ITransactionLog;
+import com.robindrew.trading.log.StubTransactionLog;
 
 public class CityIndexRestTest {
 
 	@Test
 	public void testLogin() {
 
-		String apiKey = System.getProperty("apiKey");
+		String appKey = System.getProperty("appKey");
 		String username = System.getProperty("username");
 		String password = System.getProperty("password");
+
 		CityIndexEnvironment environment = CityIndexEnvironment.DEMO;
-
-		CityIndexCredentials credentials = new CityIndexCredentials(apiKey, username, password);
-
+		CityIndexCredentials credentials = new CityIndexCredentials(appKey, username, password);
 		CityIndexSession session = new CityIndexSession(credentials, environment);
-		LoginRequest request = new LoginRequest(session);
+		ITransactionLog transactionLog = new StubTransactionLog();
+		CityIndexRestService rest = new CityIndexRestService(session, transactionLog);
 
-		LoginExecutor executor = new LoginExecutor();
-		executor.execute(request);
+		LoginExecutor executor = new LoginExecutor(rest);
+		executor.execute();
 	}
 
 }

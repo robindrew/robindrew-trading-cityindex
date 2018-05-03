@@ -4,18 +4,18 @@ import com.robindrew.common.util.Check;
 
 public class CityIndexCredentials {
 
-	private final String apiKey;
+	private final String appKey;
 	private final String username;
 	private final String password;
 
-	public CityIndexCredentials(String apiKey, String username, String password) {
-		this.apiKey = Check.notEmpty("apiKey", apiKey);
+	public CityIndexCredentials(String appKey, String username, String password) {
+		this.appKey = Check.notEmpty("appKey", appKey);
 		this.username = Check.notEmpty("username", username);
 		this.password = Check.notEmpty("password", password);
 	}
 
-	public String getApiKey() {
-		return apiKey;
+	public String getAppKey() {
+		return appKey;
 	}
 
 	public String getUsername() {
@@ -28,7 +28,7 @@ public class CityIndexCredentials {
 
 	@Override
 	public String toString() {
-		return username + "/" + apiKey;
+		return username + "/" + appKey;
 	}
 
 }
