@@ -2,9 +2,8 @@ package com.robindrew.trading.cityindex.platform.rest.executor.login;
 
 import com.google.gson.annotations.SerializedName;
 import com.robindrew.trading.cityindex.platform.CityIndexCredentials;
-import com.robindrew.trading.cityindex.platform.rest.executor.IJsonObject;
 
-public final class LoginRequest implements IJsonObject {
+public final class LoginRequest {
 
 	@SerializedName("Password")
 	private final String password;
