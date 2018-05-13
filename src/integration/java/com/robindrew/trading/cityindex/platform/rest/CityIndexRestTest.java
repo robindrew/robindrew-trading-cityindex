@@ -1,5 +1,7 @@
 package com.robindrew.trading.cityindex.platform.rest;
 
+import static com.robindrew.common.test.UnitTests.getProperty;
+
 import org.junit.Test;
 
 import com.robindrew.trading.cityindex.platform.CityIndexCredentials;
@@ -14,11 +16,11 @@ public class CityIndexRestTest {
 	@Test
 	public void testLogin() {
 
-		String appKey = System.getProperty("appKey");
-		String username = System.getProperty("username");
-		String password = System.getProperty("password");
+		String appKey = getProperty("appKey");
+		String username = getProperty("username");
+		String password = getProperty("password");
 
-		CityIndexEnvironment environment = CityIndexEnvironment.DEMO;
+		CityIndexEnvironment environment = CityIndexEnvironment.PROD;
 		CityIndexCredentials credentials = new CityIndexCredentials(appKey, username, password);
 		CityIndexSession session = new CityIndexSession(credentials, environment);
 		ITransactionLog transactionLog = new StubTransactionLog();
