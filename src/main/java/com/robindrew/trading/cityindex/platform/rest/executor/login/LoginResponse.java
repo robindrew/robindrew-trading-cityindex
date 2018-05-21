@@ -1,8 +1,9 @@
 package com.robindrew.trading.cityindex.platform.rest.executor.login;
 
 import com.google.gson.annotations.SerializedName;
+import com.robindrew.trading.cityindex.platform.rest.CityIndexJsonObject;
 
-public class LoginResponse {
+public class LoginResponse extends CityIndexJsonObject {
 
 	@SerializedName("Session")
 	private String session;

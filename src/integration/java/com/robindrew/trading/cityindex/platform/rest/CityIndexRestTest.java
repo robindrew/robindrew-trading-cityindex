@@ -4,17 +4,20 @@ import static com.robindrew.common.test.UnitTests.getProperty;
 
 import org.junit.Test;
 
+import com.lightstreamer.ls_client.ConnectionInfo;
+import com.lightstreamer.ls_client.ExtendedTableInfo;
 import com.robindrew.trading.cityindex.platform.CityIndexCredentials;
 import com.robindrew.trading.cityindex.platform.CityIndexEnvironment;
 import com.robindrew.trading.cityindex.platform.CityIndexSession;
 import com.robindrew.trading.cityindex.platform.rest.executor.login.LoginExecutor;
+import com.robindrew.trading.cityindex.platform.rest.executor.login.LoginResponse;
 import com.robindrew.trading.log.ITransactionLog;
 import com.robindrew.trading.log.StubTransactionLog;
 
 public class CityIndexRestTest {
 
 	@Test
-	public void testLogin() {
+	public void testLogin() throws Exception {
 
 		String appKey = getProperty("appKey");
 		String username = getProperty("username");
@@ -27,7 +30,23 @@ public class CityIndexRestTest {
 		CityIndexRestService rest = new CityIndexRestService(session, transactionLog);
 
 		LoginExecutor executor = new LoginExecutor(rest);
-		executor.execute();
+		LoginResponse response = executor.execute();
+
+		String sessionId = response.getSession();
+
+		ConnectionInfo info = new ConnectionInfo();
+		info.user = session.getCredentials().getUsername();
+		info.password = session.getCredentials().getPassword();
+		info.pushServerUrl = session.getEnvironment().getStreamUrl();
+		info.adapter = "STREAMINGALL";
+
+		String[] items = new String[] { "PRICE.154297" };
+		String mode = "MERGE";
+		String[] fields = new String[] { "MarketId", "TickDate", "Bid", "Offer", "Price", "High", "Low", "Change", "Direction", "AuditId" };
+		boolean snapshot = true;
+		ExtendedTableInfo tableInfo = new ExtendedTableInfo(items, mode, fields, snapshot);
+		tableInfo.setDataAdapter("PRICES");
+
 	}
 
 }

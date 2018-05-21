@@ -6,15 +6,15 @@ import org.apache.http.client.methods.HttpUriRequest;
 import com.robindrew.trading.cityindex.platform.rest.ICityIndexRestService;
 import com.robindrew.trading.cityindex.platform.rest.executor.CityIndexRestExecutor;
 
-public class LoginExecutor extends CityIndexRestExecutor<Boolean> {
+public class LoginExecutor extends CityIndexRestExecutor<LoginResponse> {
 
 	public LoginExecutor(ICityIndexRestService rest) {
 		super(rest);
 	}
 
 	@Override
-	protected Class<Boolean> getResponseType() {
-		return Boolean.class;
+	protected Class<LoginResponse> getResponseType() {
+		return LoginResponse.class;
 	}
 
 	@Override

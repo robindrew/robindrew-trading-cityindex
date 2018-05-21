@@ -12,8 +12,8 @@
 	<classpathentry kind="var" path="MAVEN_REPO/com/google/code/gson/gson/2.8.2/gson-2.8.2.jar" sourcepath="MAVEN_REPO/com/google/code/gson/gson/2.8.2/gson-2.8.2-sources.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/org/slf4j/log4j-over-slf4j/log4j-over-slf4j-1.7.25.jar" sourcepath="MAVEN_REPO/org/slf4j/log4j-over-slf4j/log4j-over-slf4j-1.7.25-sources.jar"/>
 	<classpathentry kind="var" path="MAVEN_REPO/uk/org/lidalia/sysout-over-slf4j/1.0.2/sysout-over-slf4j-1.0.2.jar" sourcepath="MAVEN_REPO/uk/org/lidalia/sysout-over-slf4j/1.0.2/sysout-over-slf4j-1.0.2-sources.jar"/>
-	<classpathentry kind="var" path="MAVEN_REPO/com/oanda/v20/v20/3.0.22/v20-3.0.22.jar" sourcepath="MAVEN_REPO/com/oanda/v20/v20/3.0.22/v20-3.0.22-sources.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/robindrew-common"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/robindrew-trading"/>
+	<classpathentry kind="lib" path="lib/lightstreamer-client-6.0.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
