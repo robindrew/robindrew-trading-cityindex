@@ -1,8 +1,18 @@
 package com.robindrew.trading.cityindex.platform.rest;
 
 import static com.robindrew.common.test.UnitTests.getProperty;
+import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_AUDIT_ID;
+import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_BID;
+import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_CHANGE;
+import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_DIRECTION;
+import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_MARKET_ID;
+import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_OFFER;
+import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_TICK_DATE;
+import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.getSubscriptionKey;
+import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.toMillis;
 
-import java.util.Arrays;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -28,6 +38,8 @@ import com.robindrew.trading.cityindex.platform.CityIndexEnvironment;
 import com.robindrew.trading.cityindex.platform.CityIndexSession;
 import com.robindrew.trading.cityindex.platform.rest.executor.login.LoginExecutor;
 import com.robindrew.trading.cityindex.platform.rest.executor.login.LoginResponse;
+import com.robindrew.trading.cityindex.platform.streaming.lightstreamer.ConnectionInfoBuilder;
+import com.robindrew.trading.cityindex.platform.streaming.lightstreamer.ExtendedTableInfoBuilder;
 import com.robindrew.trading.log.ITransactionLog;
 import com.robindrew.trading.log.StubTransactionLog;
 
@@ -51,16 +63,13 @@ public class CityIndexRestTest {
 		LoginExecutor executor = new LoginExecutor(rest);
 		LoginResponse response = executor.execute();
 
-		String sessionId = response.getSession();
+		session.setSessionId(response.getSession());
 
 		List<CityIndexInstrument> instruments1 = Lists.newArrayList(CityIndexInstrument.SPOT_USD_JPY);
 		List<CityIndexInstrument> instruments2 = Lists.newArrayList(CityIndexInstrument.SPOT_USD_CHF);
 
-		ConnectionInfo info = new ConnectionInfo();
-		info.user = session.getCredentials().getUsername();
-		info.password = sessionId;
-		info.pushServerUrl = session.getEnvironment().getStreamUrl();
-		info.adapter = "STREAMINGALL";
+		ConnectionInfoBuilder builder = new ConnectionInfoBuilder(session);
+		ConnectionInfo info = builder.build();
 
 		ExtendedTableInfo tableInfo1 = getTableInfo(instruments1);
 		ExtendedTableInfo tableInfo2 = getTableInfo(instruments2);
@@ -75,18 +84,12 @@ public class CityIndexRestTest {
 	}
 
 	private ExtendedTableInfo getTableInfo(List<? extends ICityIndexInstrument> instruments) throws SubscrException {
-		String[] items = new String[instruments.size()];
-		for (int i = 0; i < items.length; i++) {
-			items[i] = "PRICE." + instruments.get(i).getMarketId();
+		ExtendedTableInfoBuilder builder = new ExtendedTableInfoBuilder();
+		for (ICityIndexInstrument instrument : instruments) {
+			builder.addItem(getSubscriptionKey(instrument));
 		}
-
-		String mode = "MERGE";
-		String[] fields = new String[] { "MarketId", "TickDate", "Bid", "Offer", "Price", "High", "Low", "Change", "Direction", "AuditId" };
-		boolean snapshot = true;
-
-		ExtendedTableInfo tableInfo = new ExtendedTableInfo(items, mode, fields, snapshot);
-		tableInfo.setDataAdapter("PRICES");
-		return tableInfo;
+		builder.addFields(FIELD_MARKET_ID, FIELD_TICK_DATE, FIELD_BID, FIELD_OFFER, FIELD_CHANGE, FIELD_DIRECTION, FIELD_AUDIT_ID);
+		return builder.build();
 	}
 
 	class MyConnectionListener implements ConnectionListener {
@@ -164,6 +167,13 @@ public class CityIndexRestTest {
 		@Override
 		public void onUpdate(int arg0, String arg1, UpdateInfo info) {
 			log.info("onUpdate({}, {}, {})", arg0, arg1, info);
+
+			long timestamp = toMillis(info.getNewValue(FIELD_TICK_DATE));
+			BigDecimal bid = new BigDecimal(info.getNewValue(FIELD_BID));
+			BigDecimal ask = new BigDecimal(info.getNewValue(FIELD_OFFER));
+			System.out.println(new Date(timestamp));
+			System.out.println(bid);
+			System.out.println(ask);
 		}
 
 	}
