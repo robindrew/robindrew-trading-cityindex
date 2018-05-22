@@ -18,6 +18,9 @@ import static com.robindrew.trading.Instruments.XAG_USD;
 import static com.robindrew.trading.Instruments.XAU_USD;
 import static com.robindrew.trading.cityindex.InstrumentCategory.DFT;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.robindrew.trading.IInstrument;
 import com.robindrew.trading.Instrument;
 import com.robindrew.trading.InstrumentType;
@@ -29,7 +32,7 @@ import com.robindrew.trading.provider.TradingProvider;
 public class CityIndexInstrument extends Instrument implements ICityIndexInstrument {
 
 	/** AUD/USD. */
-	public static final CityIndexInstrument SPOT_AUD_USD = new CityIndexInstrument(400616153, DFT,  AUD_USD);
+	public static final CityIndexInstrument SPOT_AUD_USD = new CityIndexInstrument(400616153, DFT, AUD_USD);
 	/** EUR/JPY. */
 	public static final CityIndexInstrument SPOT_EUR_JPY = new CityIndexInstrument(400616147, DFT, EUR_JPY);
 	/** EUR/USD. */
@@ -39,7 +42,7 @@ public class CityIndexInstrument extends Instrument implements ICityIndexInstrum
 	/** USD/CHF. */
 	public static final CityIndexInstrument SPOT_USD_CHF = new CityIndexInstrument(400616148, DFT, USD_CHF);
 	/** USD/JPY. */
-	public static final CityIndexInstrument SPOT_USD_JPY = new CityIndexInstrument(400616151, DFT,  USD_JPY);
+	public static final CityIndexInstrument SPOT_USD_JPY = new CityIndexInstrument(400616151, DFT, USD_JPY);
 
 	/** Bitcoin. */
 	public static final CityIndexInstrument SPOT_BITCOIN = new CityIndexInstrument(401379436, DFT, BITCOIN);
@@ -63,6 +66,31 @@ public class CityIndexInstrument extends Instrument implements ICityIndexInstrum
 	public static final CityIndexInstrument SPOT_GOLD = new CityIndexInstrument(400616377, DFT, XAU_USD);
 	/** SILVER. */
 	public static final CityIndexInstrument SPOT_SILVER = new CityIndexInstrument(400616380, DFT, XAG_USD);
+
+	public static List<CityIndexInstrument> values() {
+		List<CityIndexInstrument> list = new ArrayList<>();
+
+		list.add(SPOT_AUD_USD);
+		list.add(SPOT_EUR_JPY);
+		list.add(SPOT_EUR_USD);
+		list.add(SPOT_GBP_USD);
+		list.add(SPOT_USD_CHF);
+		list.add(SPOT_USD_JPY);
+
+		list.add(SPOT_BITCOIN);
+		list.add(SPOT_ETHER);
+		list.add(SPOT_RIPPLE);
+		list.add(SPOT_LITECOIN);
+
+		list.add(SPOT_FTSE_100);
+		list.add(SPOT_DAX);
+		list.add(SPOT_SP_500);
+		list.add(SPOT_DOW_JONES);
+
+		list.add(SPOT_GOLD);
+		list.add(SPOT_SILVER);
+		return list;
+	}
 
 	private final int marketId;
 	private final IPricePrecision precision = new PricePrecision(2);

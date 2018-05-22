@@ -2,10 +2,14 @@ package com.robindrew.trading.cityindex.platform.rest;
 
 import static com.robindrew.common.test.UnitTests.getProperty;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.Lists;
 import com.lightstreamer.ls_client.ConnectionInfo;
 import com.lightstreamer.ls_client.ConnectionListener;
 import com.lightstreamer.ls_client.ExtendedTableInfo;
@@ -13,6 +17,7 @@ import com.lightstreamer.ls_client.HandyTableListener;
 import com.lightstreamer.ls_client.LSClient;
 import com.lightstreamer.ls_client.PushConnException;
 import com.lightstreamer.ls_client.PushServerException;
+import com.lightstreamer.ls_client.SubscrException;
 import com.lightstreamer.ls_client.SubscribedTableKey;
 import com.lightstreamer.ls_client.UpdateInfo;
 import com.robindrew.common.util.Threads;
@@ -48,7 +53,8 @@ public class CityIndexRestTest {
 
 		String sessionId = response.getSession();
 
-		ICityIndexInstrument instrument = CityIndexInstrument.SPOT_BITCOIN;
+		List<CityIndexInstrument> instruments1 = Lists.newArrayList(CityIndexInstrument.SPOT_USD_JPY);
+		List<CityIndexInstrument> instruments2 = Lists.newArrayList(CityIndexInstrument.SPOT_USD_CHF);
 
 		ConnectionInfo info = new ConnectionInfo();
 		info.user = session.getCredentials().getUsername();
@@ -56,19 +62,31 @@ public class CityIndexRestTest {
 		info.pushServerUrl = session.getEnvironment().getStreamUrl();
 		info.adapter = "STREAMINGALL";
 
-		String[] items = new String[] { "PRICE." + instrument.getMarketId() };
-		String mode = "MERGE";
-		String[] fields = new String[] { "MarketId", "TickDate", "Bid", "Offer", "Price", "High", "Low", "Change", "Direction", "AuditId" };
-		boolean snapshot = true;
-		ExtendedTableInfo tableInfo = new ExtendedTableInfo(items, mode, fields, snapshot);
-		tableInfo.setDataAdapter("PRICES");
+		ExtendedTableInfo tableInfo1 = getTableInfo(instruments1);
+		ExtendedTableInfo tableInfo2 = getTableInfo(instruments2);
 
 		LSClient client = new LSClient();
 		client.openConnection(info, new MyConnectionListener());
 
-		SubscribedTableKey tableKey = client.subscribeTable(tableInfo, new MyTableListener(), false);
+		SubscribedTableKey tableKey1 = client.subscribeTable(tableInfo1, new MyTableListener(), false);
+		SubscribedTableKey tableKey2 = client.subscribeTable(tableInfo2, new MyTableListener(), false);
 
 		Threads.sleepForever();
+	}
+
+	private ExtendedTableInfo getTableInfo(List<? extends ICityIndexInstrument> instruments) throws SubscrException {
+		String[] items = new String[instruments.size()];
+		for (int i = 0; i < items.length; i++) {
+			items[i] = "PRICE." + instruments.get(i).getMarketId();
+		}
+
+		String mode = "MERGE";
+		String[] fields = new String[] { "MarketId", "TickDate", "Bid", "Offer", "Price", "High", "Low", "Change", "Direction", "AuditId" };
+		boolean snapshot = true;
+
+		ExtendedTableInfo tableInfo = new ExtendedTableInfo(items, mode, fields, snapshot);
+		tableInfo.setDataAdapter("PRICES");
+		return tableInfo;
 	}
 
 	class MyConnectionListener implements ConnectionListener {
