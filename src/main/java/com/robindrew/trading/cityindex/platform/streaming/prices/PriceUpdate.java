@@ -17,7 +17,7 @@ public class PriceUpdate {
 	private final BigDecimal ask;
 
 	public PriceUpdate(IInstrument instrument, IPricePrecision precision, String itemName, String date, String bid, String ask) {
-		this.timestamp = PriceUpdateFields.toTimestamp(date);
+		this.timestamp = PriceUpdateFields.parseTimestamp(date);
 		this.bid = new BigDecimal(bid);
 		this.ask = new BigDecimal(ask);
 		this.instrument = instrument;

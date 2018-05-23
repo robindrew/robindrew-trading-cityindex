@@ -181,8 +181,8 @@ public class PriceUpdatePriceStream extends InstrumentPriceStream<ICityIndexInst
 			// Consume tick
 			try {
 
-//				IPriceCandle next = tick.toPriceTick();
-//				putNextCandle(next);
+				IPriceCandle next = tick.toPriceTick();
+				putNextCandle(next);
 
 			} catch (Exception e) {
 				log.error("Error consuming tick", e);
