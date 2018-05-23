@@ -34,6 +34,8 @@ import com.robindrew.trading.cityindex.platform.streaming.ICityIndexInstrumentPr
 import com.robindrew.trading.cityindex.platform.streaming.lightstreamer.ExtendedTableInfoBuilder;
 import com.robindrew.trading.cityindex.platform.streaming.lightstreamer.LoggingTableListener;
 import com.robindrew.trading.platform.streaming.InstrumentPriceStream;
+import com.robindrew.trading.price.candle.IPriceCandle;
+import com.robindrew.trading.price.precision.IPricePrecision;
 
 public class PriceUpdatePriceStream extends InstrumentPriceStream<ICityIndexInstrument> implements ICityIndexInstrumentPriceStream {
 
@@ -63,6 +65,7 @@ public class PriceUpdatePriceStream extends InstrumentPriceStream<ICityIndexInst
 	private static final PopulatingMap<String, AtomicLong> countMap = createConcurrentMap(key -> new AtomicLong(0));
 
 	private final AtomicBoolean active = new AtomicBoolean(true);
+	private final IPricePrecision precision;
 
 	private final LoopingEventConsumerThread<OnUpdate> eventConsumer;
 	private final Delay loggingDelay = new Delay(1, TimeUnit.MINUTES);
@@ -76,6 +79,7 @@ public class PriceUpdatePriceStream extends InstrumentPriceStream<ICityIndexInst
 
 	public PriceUpdatePriceStream(ICityIndexInstrument instrument) {
 		super(instrument);
+		this.precision = instrument.getPrecision();
 
 		// Create the event consumer
 		String threadName = "ChartTickConsumer[" + getInstrument().getName() + "]";
@@ -91,6 +95,10 @@ public class PriceUpdatePriceStream extends InstrumentPriceStream<ICityIndexInst
 		this.tableInfo = builder.build();
 	}
 
+	public IPricePrecision getPrecision() {
+		return precision;
+	}
+
 	@Override
 	public ExtendedTableInfo getExtendedTableInfo() {
 		return tableInfo;
@@ -99,6 +107,19 @@ public class PriceUpdatePriceStream extends InstrumentPriceStream<ICityIndexInst
 	@Override
 	public HandyTableListener getHandyTableListener() {
 		return tableListener;
+	}
+
+	@Override
+	public void close() {
+		super.close();
+		eventConsumer.close();
+	}
+
+	/**
+	 * This stream will not consume price events until it is started.
+	 */
+	public void start() {
+		eventConsumer.start();
 	}
 
 	@Override
@@ -135,19 +156,14 @@ public class PriceUpdatePriceStream extends InstrumentPriceStream<ICityIndexInst
 			long count = increment(itemName);
 
 			// Extract the information we are interested in
-			String timestamp = updateInfo.getNewValue(FIELD_TICK_DATE);
+			String date = updateInfo.getNewValue(FIELD_TICK_DATE);
 
 			// Bid
 			String bid = getValue(updateInfo, FIELD_BID, cachedBid);
 			String offer = getValue(updateInfo, FIELD_OFFER, cachedOffer);
 
-			/** Last Traded Volume. */
-			// String volume = updateInfo.getNewValue(FIELD_LTV);
-			/** Incremental Trading Volume. */
-			// String incremental = updateInfo.getNewValue(FIELD_TTV);
-
 			// Invalid update?
-			if (isInvalid(timestamp) || isInvalid(bid) || isInvalid(offer)) {
+			if (isInvalid(date) || isInvalid(bid) || isInvalid(offer)) {
 				log.debug("[Invalid Tick] - onUpdate({}, {}, {})", itemName, itemPos, updateInfo);
 				return;
 			}
@@ -156,7 +172,7 @@ public class PriceUpdatePriceStream extends InstrumentPriceStream<ICityIndexInst
 			final PriceUpdate tick;
 			try {
 				log.debug("[Tick] - onUpdate({}, {}, {})", itemName, itemPos, updateInfo);
-				// tick = new PriceUpdate(getInstrument(), getPrecision(), itemName, timestamp, bid, offer);
+				tick = new PriceUpdate(getInstrument(), getPrecision(), itemName, date, bid, offer);
 			} catch (Exception e) {
 				log.warn("[Invalid Tick] - onUpdate(" + itemPos + ", " + itemName + ", " + updateInfo + ")", e);
 				return;
@@ -165,8 +181,8 @@ public class PriceUpdatePriceStream extends InstrumentPriceStream<ICityIndexInst
 			// Consume tick
 			try {
 
-				// IPriceCandle next = tick.toPriceTick();
-				// putNextCandle(next);
+//				IPriceCandle next = tick.toPriceTick();
+//				putNextCandle(next);
 
 			} catch (Exception e) {
 				log.error("Error consuming tick", e);

@@ -21,7 +21,7 @@ public class PriceUpdateFields {
 		return "PRICE." + instrument.getMarketId();
 	}
 
-	public static long toMillis(String date) {
+	public static long toTimestamp(String date) {
 		int index1 = date.indexOf('(');
 		int index2 = date.lastIndexOf(')');
 		return Long.parseLong(date.substring(index1 + 1, index2));

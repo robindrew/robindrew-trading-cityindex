@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.GsonBuilder;
 import com.robindrew.common.text.Strings;
-import com.robindrew.trading.cityindex.platform.CityIndexSession;
+import com.robindrew.trading.cityindex.platform.ICityIndexSession;
 import com.robindrew.trading.cityindex.platform.rest.ICityIndexRestService;
 import com.robindrew.trading.httpclient.HttpClientException;
 import com.robindrew.trading.httpclient.HttpClientExecutor;
@@ -37,18 +37,18 @@ public abstract class CityIndexRestExecutor<R> extends HttpClientExecutor<R> {
 	}
 
 	protected boolean logRequest() {
-		return true;
+		return false;
 	}
 
 	protected boolean logResponse() {
-		return true;
+		return false;
 	}
 
 	protected ITransactionLog getTransactionLog() {
 		return rest.getTransactionLog();
 	}
 
-	public CityIndexSession getSession() {
+	public ICityIndexSession getSession() {
 		return rest.getSession();
 	}
 

@@ -10,4 +10,6 @@ public interface ICityIndexSession {
 
 	String getSessionId();
 
+	void setSessionId(String sessionId);
+
 }

@@ -38,6 +38,7 @@ public class CityIndexSession implements ICityIndexSession {
 		return sessionId;
 	}
 
+	@Override
 	public void setSessionId(String sessionId) {
 		if (sessionId.isEmpty()) {
 			throw new IllegalArgumentException("sessionId is empty");

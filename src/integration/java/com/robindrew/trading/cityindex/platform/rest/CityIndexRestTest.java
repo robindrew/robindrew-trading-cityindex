@@ -9,7 +9,7 @@ import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpd
 import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_OFFER;
 import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_TICK_DATE;
 import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.getSubscriptionKey;
-import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.toMillis;
+import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.toTimestamp;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -168,7 +168,7 @@ public class CityIndexRestTest {
 		public void onUpdate(int arg0, String arg1, UpdateInfo info) {
 			log.info("onUpdate({}, {}, {})", arg0, arg1, info);
 
-			long timestamp = toMillis(info.getNewValue(FIELD_TICK_DATE));
+			long timestamp = toTimestamp(info.getNewValue(FIELD_TICK_DATE));
 			BigDecimal bid = new BigDecimal(info.getNewValue(FIELD_BID));
 			BigDecimal ask = new BigDecimal(info.getNewValue(FIELD_OFFER));
 			System.out.println(new Date(timestamp));
