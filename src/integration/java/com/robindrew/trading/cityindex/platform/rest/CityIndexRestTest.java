@@ -1,15 +1,15 @@
 package com.robindrew.trading.cityindex.platform.rest;
 
 import static com.robindrew.common.test.UnitTests.getProperty;
-import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_AUDIT_ID;
-import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_BID;
-import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_CHANGE;
-import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_DIRECTION;
-import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_MARKET_ID;
-import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_OFFER;
-import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_TICK_DATE;
-import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.getSubscriptionKey;
-import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.toTimestamp;
+import static com.robindrew.trading.cityindex.platform.streaming.priceupdate.PriceUpdateFields.FIELD_AUDIT_ID;
+import static com.robindrew.trading.cityindex.platform.streaming.priceupdate.PriceUpdateFields.FIELD_BID;
+import static com.robindrew.trading.cityindex.platform.streaming.priceupdate.PriceUpdateFields.FIELD_CHANGE;
+import static com.robindrew.trading.cityindex.platform.streaming.priceupdate.PriceUpdateFields.FIELD_DIRECTION;
+import static com.robindrew.trading.cityindex.platform.streaming.priceupdate.PriceUpdateFields.FIELD_MARKET_ID;
+import static com.robindrew.trading.cityindex.platform.streaming.priceupdate.PriceUpdateFields.FIELD_OFFER;
+import static com.robindrew.trading.cityindex.platform.streaming.priceupdate.PriceUpdateFields.FIELD_TICK_DATE;
+import static com.robindrew.trading.cityindex.platform.streaming.priceupdate.PriceUpdateFields.getSubscriptionKey;
+import static com.robindrew.trading.cityindex.platform.streaming.priceupdate.PriceUpdateFields.toTimestamp;
 
 import java.math.BigDecimal;
 import java.util.Date;

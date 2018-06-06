@@ -1,15 +1,15 @@
-package com.robindrew.trading.cityindex.platform.streaming.prices;
+package com.robindrew.trading.cityindex.platform.streaming.priceupdate;
 
 import static com.robindrew.common.collect.PopulatingMap.createConcurrentMap;
 import static com.robindrew.common.text.Strings.number;
-import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_AUDIT_ID;
-import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_BID;
-import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_CHANGE;
-import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_DIRECTION;
-import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_MARKET_ID;
-import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_OFFER;
-import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.FIELD_TICK_DATE;
-import static com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdateFields.getSubscriptionKey;
+import static com.robindrew.trading.cityindex.platform.streaming.priceupdate.PriceUpdateFields.FIELD_AUDIT_ID;
+import static com.robindrew.trading.cityindex.platform.streaming.priceupdate.PriceUpdateFields.FIELD_BID;
+import static com.robindrew.trading.cityindex.platform.streaming.priceupdate.PriceUpdateFields.FIELD_CHANGE;
+import static com.robindrew.trading.cityindex.platform.streaming.priceupdate.PriceUpdateFields.FIELD_DIRECTION;
+import static com.robindrew.trading.cityindex.platform.streaming.priceupdate.PriceUpdateFields.FIELD_MARKET_ID;
+import static com.robindrew.trading.cityindex.platform.streaming.priceupdate.PriceUpdateFields.FIELD_OFFER;
+import static com.robindrew.trading.cityindex.platform.streaming.priceupdate.PriceUpdateFields.FIELD_TICK_DATE;
+import static com.robindrew.trading.cityindex.platform.streaming.priceupdate.PriceUpdateFields.getSubscriptionKey;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -181,8 +181,8 @@ public class PriceUpdatePriceStream extends InstrumentPriceStream<ICityIndexInst
 			// Consume tick
 			try {
 
-//				IPriceCandle next = tick.toPriceTick();
-//				putNextCandle(next);
+				IPriceCandle next = tick.toPriceTick();
+				putNextCandle(next);
 
 			} catch (Exception e) {
 				log.error("Error consuming tick", e);

@@ -18,7 +18,7 @@ import com.robindrew.trading.cityindex.ICityIndexInstrument;
 import com.robindrew.trading.cityindex.platform.ICityIndexSession;
 import com.robindrew.trading.cityindex.platform.rest.ICityIndexRestService;
 import com.robindrew.trading.cityindex.platform.streaming.lightstreamer.LighstreamerConnection;
-import com.robindrew.trading.cityindex.platform.streaming.prices.PriceUpdatePriceStream;
+import com.robindrew.trading.cityindex.platform.streaming.priceupdate.PriceUpdatePriceStream;
 import com.robindrew.trading.platform.streaming.AbstractStreamingService;
 import com.robindrew.trading.platform.streaming.IInstrumentPriceStream;
 

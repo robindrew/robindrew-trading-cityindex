@@ -23,7 +23,6 @@ import java.util.List;
 
 import com.robindrew.trading.IInstrument;
 import com.robindrew.trading.Instrument;
-import com.robindrew.trading.InstrumentType;
 import com.robindrew.trading.price.precision.IPricePrecision;
 import com.robindrew.trading.price.precision.PricePrecision;
 import com.robindrew.trading.provider.ITradingProvider;
@@ -32,40 +31,40 @@ import com.robindrew.trading.provider.TradingProvider;
 public class CityIndexInstrument extends Instrument implements ICityIndexInstrument {
 
 	/** AUD/USD. */
-	public static final CityIndexInstrument SPOT_AUD_USD = new CityIndexInstrument(400616153, DFT, AUD_USD);
+	public static final CityIndexInstrument SPOT_AUD_USD = new CityIndexInstrument(400616153, DFT, AUD_USD, 6);
 	/** EUR/JPY. */
-	public static final CityIndexInstrument SPOT_EUR_JPY = new CityIndexInstrument(400616147, DFT, EUR_JPY);
+	public static final CityIndexInstrument SPOT_EUR_JPY = new CityIndexInstrument(400616147, DFT, EUR_JPY, 6);
 	/** EUR/USD. */
-	public static final CityIndexInstrument SPOT_EUR_USD = new CityIndexInstrument(400616149, DFT, EUR_USD);
+	public static final CityIndexInstrument SPOT_EUR_USD = new CityIndexInstrument(400616149, DFT, EUR_USD, 6);
 	/** GBP/USD. */
-	public static final CityIndexInstrument SPOT_GBP_USD = new CityIndexInstrument(400616150, DFT, GBP_USD);
+	public static final CityIndexInstrument SPOT_GBP_USD = new CityIndexInstrument(400616150, DFT, GBP_USD, 6);
 	/** USD/CHF. */
-	public static final CityIndexInstrument SPOT_USD_CHF = new CityIndexInstrument(400616148, DFT, USD_CHF);
+	public static final CityIndexInstrument SPOT_USD_CHF = new CityIndexInstrument(400616148, DFT, USD_CHF, 6);
 	/** USD/JPY. */
-	public static final CityIndexInstrument SPOT_USD_JPY = new CityIndexInstrument(400616151, DFT, USD_JPY);
+	public static final CityIndexInstrument SPOT_USD_JPY = new CityIndexInstrument(400616151, DFT, USD_JPY, 6);
 
 	/** Bitcoin. */
-	public static final CityIndexInstrument SPOT_BITCOIN = new CityIndexInstrument(401379436, DFT, BITCOIN);
+	public static final CityIndexInstrument SPOT_BITCOIN = new CityIndexInstrument(401379436, DFT, BITCOIN, 2);
 	/** Ether. */
-	public static final CityIndexInstrument SPOT_ETHER = new CityIndexInstrument(401497467, DFT, ETHER);
+	public static final CityIndexInstrument SPOT_ETHER = new CityIndexInstrument(401497467, DFT, ETHER, 2);
 	/** Ripple. */
-	public static final CityIndexInstrument SPOT_RIPPLE = new CityIndexInstrument(401497526, DFT, RIPPLE);
+	public static final CityIndexInstrument SPOT_RIPPLE = new CityIndexInstrument(401497526, DFT, RIPPLE, 2);
 	/** Litecoin. */
-	public static final CityIndexInstrument SPOT_LITECOIN = new CityIndexInstrument(401497517, DFT, LITECOIN);
+	public static final CityIndexInstrument SPOT_LITECOIN = new CityIndexInstrument(401497517, DFT, LITECOIN, 2);
 
 	/** FTSE 100. */
-	public static final CityIndexInstrument SPOT_FTSE_100 = new CityIndexInstrument(400616113, DFT, FTSE_100);
+	public static final CityIndexInstrument SPOT_FTSE_100 = new CityIndexInstrument(400616113, DFT, FTSE_100, 2);
 	/** DAX. */
-	public static final CityIndexInstrument SPOT_DAX = new CityIndexInstrument(400616115, DFT, DAX_30);
+	public static final CityIndexInstrument SPOT_DAX = new CityIndexInstrument(400616115, DFT, DAX_30, 2);
 	/** S&amp;P 500. */
-	public static final CityIndexInstrument SPOT_SP_500 = new CityIndexInstrument(400616141, DFT, SP_500);
+	public static final CityIndexInstrument SPOT_SP_500 = new CityIndexInstrument(400616141, DFT, SP_500, 2);
 	/** DOW JONES. */
-	public static final CityIndexInstrument SPOT_DOW_JONES = new CityIndexInstrument(400616114, DFT, DOW_JONES_30);
+	public static final CityIndexInstrument SPOT_DOW_JONES = new CityIndexInstrument(400616114, DFT, DOW_JONES_30, 2);
 
 	/** GOLD. */
-	public static final CityIndexInstrument SPOT_GOLD = new CityIndexInstrument(400616377, DFT, XAU_USD);
+	public static final CityIndexInstrument SPOT_GOLD = new CityIndexInstrument(400616377, DFT, XAU_USD, 2);
 	/** SILVER. */
-	public static final CityIndexInstrument SPOT_SILVER = new CityIndexInstrument(400616380, DFT, XAG_USD);
+	public static final CityIndexInstrument SPOT_SILVER = new CityIndexInstrument(400616380, DFT, XAG_USD, 2);
 
 	public static List<CityIndexInstrument> values() {
 		List<CityIndexInstrument> list = new ArrayList<>();
@@ -93,18 +92,13 @@ public class CityIndexInstrument extends Instrument implements ICityIndexInstrum
 	}
 
 	private final int marketId;
-	private final IPricePrecision precision = new PricePrecision(2);
+	private final IPricePrecision precision;
 	private final InstrumentCategory type;
 
-	public CityIndexInstrument(int marketId, InstrumentCategory type, IInstrument underlying) {
+	public CityIndexInstrument(int marketId, InstrumentCategory type, IInstrument underlying, int decimalPlaces) {
 		super(String.valueOf(marketId), underlying);
 		this.marketId = marketId;
-		this.type = type;
-	}
-
-	public CityIndexInstrument(int marketId, InstrumentCategory type, InstrumentType instrumentType) {
-		super(String.valueOf(marketId), instrumentType);
-		this.marketId = marketId;
+		this.precision = new PricePrecision(decimalPlaces);
 		this.type = type;
 	}
 

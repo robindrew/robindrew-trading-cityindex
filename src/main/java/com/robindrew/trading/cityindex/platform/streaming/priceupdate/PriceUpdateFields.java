@@ -1,4 +1,4 @@
-package com.robindrew.trading.cityindex.platform.streaming.prices;
+package com.robindrew.trading.cityindex.platform.streaming.priceupdate;
 
 import com.robindrew.trading.cityindex.ICityIndexInstrument;
 
