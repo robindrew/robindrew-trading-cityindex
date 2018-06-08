@@ -1,8 +1,8 @@
 package com.robindrew.trading.cityindex;
 
-import com.robindrew.trading.provider.ITradeDataProviderInstrument;
+import com.robindrew.trading.provider.ITradingProviderInstrument;
 
-public interface ICityIndexInstrument extends ITradeDataProviderInstrument {
+public interface ICityIndexInstrument extends ITradingProviderInstrument {
 
 	int getMarketId();
 
