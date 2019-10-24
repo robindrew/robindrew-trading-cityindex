@@ -80,6 +80,9 @@ public class CityIndexRestTest {
 		SubscribedTableKey tableKey1 = client.subscribeTable(tableInfo1, new MyTableListener(), false);
 		SubscribedTableKey tableKey2 = client.subscribeTable(tableInfo2, new MyTableListener(), false);
 
+		System.out.println(tableKey1);
+		System.out.println(tableKey2);
+
 		Threads.sleepForever();
 	}
 
