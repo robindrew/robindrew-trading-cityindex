@@ -21,7 +21,7 @@ public class CityIndexStreamingServiceMonitor implements AutoCloseable {
 	public CityIndexStreamingServiceMonitor(ICityIndexTradingPlatform platform) {
 		this.platform = Check.notNull("platform", platform);
 		this.thread = new LoopingRunnableThread("CityStreamingServiceMonitor", new Reconnector());
-		this.thread.setPause(new UnitTime(1, MINUTES));
+		this.thread.setInterval(new UnitTime(1, MINUTES));
 	}
 
 	public void start() {
