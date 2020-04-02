@@ -3,8 +3,8 @@ package com.robindrew.trading.cityindex.platform.streaming.priceupdate;
 import java.math.BigDecimal;
 
 import com.robindrew.trading.IInstrument;
-import com.robindrew.trading.price.candle.ITickPriceCandle;
-import com.robindrew.trading.price.candle.TickPriceCandle;
+import com.robindrew.trading.price.candle.tick.ITickPriceCandle;
+import com.robindrew.trading.price.candle.tick.TickPriceCandle;
 import com.robindrew.trading.price.decimal.Decimals;
 import com.robindrew.trading.price.precision.IPricePrecision;
 
